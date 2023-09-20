@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import '../Login/login.css'
-const Login = () => {
-  const [email, setEmail] = useState('');
+import '../PromoBanner/promobanner.css'
+
+const PromoBanner = () => {
+    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordResetVisible, setIsPasswordResetVisible] = useState(false);
 
@@ -19,7 +20,7 @@ const Login = () => {
   };
   return (
     <div>
-        <div className="content">
+        <div className="container content">
       <div className="one-whole column collection_nav">
         <h1>Customer Login</h1>
         <div className="feature-divider"></div>
@@ -132,4 +133,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default PromoBanner

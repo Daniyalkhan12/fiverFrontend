@@ -1,89 +1,111 @@
 import React, { useState } from 'react';
 
 const Registration = () => {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        username: '',
-        email: '',
-        password: '',
-      });
-    
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
-      };
-    
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        // You can add your registration logic here
-        console.log('Form data submitted:', formData);
-      };
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [acceptsMarketing, setAcceptsMarketing] = useState(false);
+
+  const handleSignupSubmit = (e) => {
+    e.preventDefault();
+    // Handle signup logic here
+  };
   return (
-    <div className="container">
-      <h2>Registration</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
+    <div className="content">
+    <div className="one-whole column collection_nav">
+      <h1>Create Account</h1>
+      <div className="feature-divider"></div>
     </div>
+
+    <div className="three-eighths columns medium-down--one-whole offset-by-five is-hidden-offset-mobile-only">
+      <br />
+      <div id="customer">
+        <div id="create-customer">
+          <form
+            method="post"
+            action="/account"
+            id="create_customer"
+            acceptCharset="UTF-8"
+            data-login-with-shop-sign-up="true"
+            onSubmit={handleSignupSubmit}
+          >
+            <input type="hidden" name="form_type" value="create_customer" />
+            <input type="hidden" name="utf8" value="✓" />
+            <div id="first_name">
+              <label htmlFor="first_name" className="login">
+                First Name
+              </label>
+              <input
+                type="text"
+                value={firstName}
+                name="customer[first_name]"
+                id="first_name"
+                size="30"
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div id="last_name">
+              <label htmlFor="last_name" className="login">
+                Last Name
+              </label>
+              <input
+                type="text"
+                value={lastName}
+                name="customer[last_name]"
+                id="last_name"
+                size="30"
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+            <div id="email">
+              <label htmlFor="email" className="login">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                name="customer[email]"
+                id="email"
+                size="30"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div id="password">
+              <label htmlFor="password" className="login">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                name="customer[password]"
+                id="password"
+                className="password"
+                size="30"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="acceptsMarketing">
+              <input
+                type="checkbox"
+                id="customer[accepts_marketing]"
+                name="customer[accepts_marketing]"
+                checked={acceptsMarketing}
+                onChange={(e) => setAcceptsMarketing(e.target.checked)}
+              />
+              <label htmlFor="customer[accepts_marketing]">Subscribe to our newsletter?</label>
+            </div>
+            <div className="action_bottom">
+              <input className="global-button global-button--primary" type="submit" value="Sign Up" />
+              <p className="right" style={{ paddingTop: '8px' }}>
+                Returning Customer? <a href="/account/login" id="customer_login_link">Login →</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   )
 }
 
