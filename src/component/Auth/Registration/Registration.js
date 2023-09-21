@@ -1,15 +1,44 @@
 import React, { useState } from 'react';
-
+import { Link, useNavigate } from 'react-router-dom';
 const Registration = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('');
   const [acceptsMarketing, setAcceptsMarketing] = useState(false);
 
-  const handleSignupSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
+    
+    const user = {
+      "first_name": firstName,
+      "last_name": lastName,
+      "username": username,
+      "password": password,
+      "email": email
+    }
+
+    const response = await fetch("http://127.0.0.1:8000/user/register/", {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+    console.log(response)
+    const json = await response.json()
+    console.log(json)
+    if (json.code === 400){
+      alert("Error during registration. Please try again!")
+    }
+    if (json.code === 200){
+     alert("User registered successfully!")
+     navigate('/')
+    }
+
   };
   return (
     <div className="content">
@@ -58,6 +87,19 @@ const Registration = () => {
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
+            <div id="username">
+              <label htmlFor="email" className="login">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                name="customer[username]"
+                id="username"
+                size="30"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
             <div id="email">
               <label htmlFor="email" className="login">
                 Email
@@ -98,7 +140,7 @@ const Registration = () => {
             <div className="action_bottom">
               <input className="global-button global-button--primary" type="submit" value="Sign Up" />
               <p className="right" style={{ paddingTop: '8px' }}>
-                Returning Customer? <a href="/account/login" id="customer_login_link">Login →</a>
+                Returning Customer? <Link to="/" id="customer_login_link">Login →</Link>
               </p>
             </div>
           </form>

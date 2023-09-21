@@ -1,13 +1,40 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../Login/login.css'
+import '../Registration/Registration'
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordResetVisible, setIsPasswordResetVisible] = useState(false);
 
-  const handleLoginSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     // Handle login logic here
+    const login = {
+      "username": email, 
+      "password": password
+    }
+
+    const response = await fetch('http://127.0.0.1:8000/user/login/', {
+      method: 'POST',
+      body: JSON.stringify(login),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+    console.log(response)
+    const json = await response.json()
+    console.log(json)
+    if (json.code == 400){
+      alert("Username or Password wrong, Please try again!")
+    }
+    if (json.code == 200){
+     alert("User Logged in Successfully!")
+     navigate('/uploadImage')
+    }
+
   };
 
   const handlePasswordResetClick = () => {
@@ -78,11 +105,11 @@ const Login = () => {
             <input type="hidden" name="form_type" value="customer_login" />
             <input type="hidden" name="utf8" value="✓" />
             <label htmlFor="customer_email" className="login">
-              Email
+              Username
             </label>
             <input
               id="customer_email"
-              type="email"
+              type="text"
               value={email}
               name="customer[email]"
               size="30"
@@ -118,9 +145,9 @@ const Login = () => {
               tabIndex="3"
             />
             <p className="right" style={{ paddingTop: '10px' }}>
-              New Customer? <a href="/account/register" id="customer_register_link">
+              New Customer? <Link to="/registration" id="customer_register_link">
                 Sign up →
-              </a>
+              </Link>
             </p>
             <input type="hidden" name="return_url" value="/account" />
           </form>
