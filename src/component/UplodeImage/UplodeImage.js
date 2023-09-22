@@ -4,6 +4,7 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 const UplodeImage = () => {
     const [selectedCode, setSelectedCode] = useState('');
+    const emojis = ["😊", "❤️", "☹️", "🤡", "😵", "🤕", "👤", "😍", "🥰", "😗", "😋", "😛", "😝", "😠", "😬", "🐯", "🌚", "🐼", "🐶", "🐵", "🥦", "🎯", "🤾", "🚴"];
 
     const handleEmojiSelect = (event) => {
       setSelectedCode(event.target.value);
@@ -87,9 +88,13 @@ const UplodeImage = () => {
         onChange={handleEmojiSelect}
         value={selectedCode}
       >
+        
         <option value="">Select an emoji code</option>
-        <option value=":smile:">:smile:</option>
-        <option value=":heart:">:heart:</option>
+        {emojis.map((emoji, index) => (
+          <option key={index} value={emoji}>
+            {emoji}
+          </option>
+        ))}
         {/* Add more emoji codes here */}
       </select>
       {selectedCode && (
