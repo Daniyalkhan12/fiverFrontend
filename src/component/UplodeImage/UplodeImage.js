@@ -32,17 +32,23 @@ const UplodeImage = () => {
     reader.onload = (e) => {
       setImage(e.target.result);
     };
-
+ 
     reader.readAsDataURL(file);
   };
 
   return (
+    <div className="three-eighths columns medium-down--one-whole offset-by-five is-hidden-offset-mobile-only animated fadeInUp">
     <div>
-    <h1>Color Picker</h1>
-    <div>
-      <button onClick={() => setShowPicker(!showPicker)}>Toggle Color Picker</button>
+    <button onClick={() => setShowPicker(!showPicker)}>
+        Select Color
+      </button>
       {showPicker && (
-        <SketchPicker color={color} onChange={handleColorChange} />
+        <div style={{ position: 'absolute', zIndex: 999 }}>
+          <SketchPicker
+            color={color}
+            onChange={handleColorChange}
+          />
+        </div>
       )}
       <input
         type="number"
@@ -70,7 +76,7 @@ const UplodeImage = () => {
       <input
         type="text"
         id="xInput"
-      /><br /><br />
+      />
 
       <label htmlFor="yInput">Enter Y:</label>
       <input
@@ -79,7 +85,7 @@ const UplodeImage = () => {
       />
     <div>
       <input type="file" accept="image/*" onChange={handleImageUpload} />
-      {image && <img src={image} alt="Uploaded" width="200" height="200" />}
+      {image && <img src={image} className='imgUplode' alt="Uploaded" width="200" height="200" />}
     </div>
     <div className="emoji-code-dropdown">
       <label htmlFor="emojiCodeDropdown">Select Emoji Code:</label>
