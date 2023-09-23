@@ -33,10 +33,12 @@ const Login = () => {
     if (json.code == 200){
       const access = json.data.access;
       localStorage.setItem('accessToken', access);
-      console.log(access)
+      const refresh = json.data.refresh;
+      localStorage.setItem('refreshToken', refresh);
+
 
      alert("User Logged in Successfully!")
-     navigate('/uploadImage')
+     navigate('/listingPage')
     }
 
   };
@@ -52,7 +54,7 @@ const Login = () => {
     <div>
         <div className="content">
       <div className="one-whole column collection_nav">
-        <h1>Customer Login</h1>
+        <h1 className='Loginheading'>Login</h1>
         <div className="feature-divider"></div>
       </div>
 

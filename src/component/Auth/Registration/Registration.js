@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../Registration/Registration.css'
 const Registration = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -43,7 +44,7 @@ const Registration = () => {
   return (
     <div className="content">
     <div className="one-whole column collection_nav">
-      <h1>Create Account</h1>
+      <h1 className='createheading'>Create Account</h1>
       <div className="feature-divider"></div>
     </div>
 
