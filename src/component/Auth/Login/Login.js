@@ -31,6 +31,10 @@ const Login = () => {
       alert("Username or Password wrong, Please try again!")
     }
     if (json.code == 200){
+      const access = json.data.access;
+      localStorage.setItem('accessToken', access);
+      console.log(access)
+
      alert("User Logged in Successfully!")
      navigate('/uploadImage')
     }

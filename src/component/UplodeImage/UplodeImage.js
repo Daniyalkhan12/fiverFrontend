@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
+import { useNavigate } from 'react-router-dom';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 const UplodeImage = () => {
+  const navigate = useNavigate();
+  
+  const [pos_x, setPosX] = useState('');
+  const [pos_y, setPosY] = useState('');
+  const [uploadImage, setUploadImage] = useState(null);
+  const [urlImage, setUrlImage] = useState(null);
     const [selectedCode, setSelectedCode] = useState('');
     const emojis = ["😊", "❤️", "☹️", "🤡", "😵", "🤕", "👤", "😍", "🥰", "😗", "😋", "😛", "😝", "😠", "😬", "🐯", "🌚", "🐼", "🐶", "🐵", "🥦", "🎯", "🤾", "🚴"];
 
@@ -11,7 +18,6 @@ const UplodeImage = () => {
     };
     const [color, setColor] = useState({ r: 0, g: 0, b: 0 });
   const [showPicker, setShowPicker] = useState(false);
-  const [image, setImage] = useState(null);
 
   const handleColorChange = (newColor) => {
     setColor(newColor.rgb);
@@ -28,18 +34,68 @@ const UplodeImage = () => {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
+    setUrlImage(file)
     reader.onload = (e) => {
-      setImage(e.target.result);
+      setUploadImage(e.target.result);
     };
  
     reader.readAsDataURL(file);
+  };
+  
+  const handleUploadButton = async (e) => {
+    e.preventDefault();
+    const accessToken = localStorage.getItem('accessToken')
+    // console.log(accessToken, uploadImage)
+    // const imageDetails = {
+    //   "pos_x": pos_x,
+    //   "post_y": pos_y,
+    //   "red": color.r,
+    //   "green": color.g,
+    //   "blue": color.b,
+    //   "image": uploadImage
+    // }
+    var imageDetails = new FormData();
+    imageDetails.append("image", urlImage);
+    imageDetails.append("pos_x", pos_x);
+    imageDetails.append("post_y", pos_y);
+    imageDetails.append("red", color.r);
+    imageDetails.append("green", color.g);
+    imageDetails.append("blue", color.b);
+    const response = await fetch("http://127.0.0.1:8000/image/upload/", {
+      method: 'POST',
+      body: imageDetails,
+      headers:{
+        'Authorization': 'Bearer ' + accessToken
+      }
+    })
+    // console.log(response)
+    const json = await response.json()
+    // console.log(json)
+    if (json.code === 400){
+      alert("Error during generating. Please try again!")
+    }
+    if (json.code === 200){
+     alert("Generating Image, Please wait a few seconds!")
+     navigate('/listingPage')
+    }
+
   };
 
   return (
     <div className="three-eighths columns medium-down--one-whole offset-by-five is-hidden-offset-mobile-only animated fadeInUp">
     <div>
-    <button onClick={() => setShowPicker(!showPicker)}>
+      
+      <form
+            method="post"
+            action="/account"
+            id="create_customer"
+            acceptCharset="UTF-8"
+            data-login-with-shop-sign-up="true"
+            onSubmit={handleUploadButton}
+          >
+    <div>
+    
+    <button type='button' onClick={() => setShowPicker(!showPicker)}>
         Select Color
       </button>
       {showPicker && (
@@ -76,16 +132,20 @@ const UplodeImage = () => {
       <input
         type="text"
         id="xInput"
+        value={pos_x}
+        onChange={(e) => setPosX(e.target.value)}
       />
 
       <label htmlFor="yInput">Enter Y:</label>
       <input
         type="text"
         id="yInput"
+        value={pos_y}
+        onChange={(e) => setPosY(e.target.value)}
       />
     <div>
       <input type="file" accept="image/*" onChange={handleImageUpload} />
-      {image && <img src={image} className='imgUplode' alt="Uploaded" width="200" height="200" />}
+      {uploadImage && <img src={uploadImage} className='imgUplode' alt="Uploaded" width="200" height="200" />}
     </div>
     <div className="emoji-code-dropdown">
       <label htmlFor="emojiCodeDropdown">Select Emoji Code:</label>
@@ -111,7 +171,12 @@ const UplodeImage = () => {
         </div>
       )}
     </div>
-
+    
+    <div className="action_bottom">
+              <input className="global-button global-button--primary" type="submit" value="Generate Image" />
+        </div>
+    </form>
+    </div>
   </div>
 
   )
