@@ -1,3 +1,4 @@
+import AdminDashboard from "./component/Admin-Dashboard/AdminDashboard";
 import Login from "./component/Auth/Login/Login";
 import Registration from "./component/Auth/Registration/Registration";
 import ListingPage from "./component/ListingPage/ListingPage";
@@ -70,6 +71,10 @@ function App() {
          <Route 
           path="/listingPage" 
           element={<ListingPage products={products}/>} 
+        />
+        <Route 
+          path="/admindashboard" 
+          element={<AdminDashboard/>} 
         />
       </Routes>
       {/* <PromoBanner/> */}

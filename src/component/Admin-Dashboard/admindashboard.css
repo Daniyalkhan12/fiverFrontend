@@ -1,0 +1,97 @@
+.app-container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+
+  }
+  
+  .sidebar {
+    flex: 1; /* 20% of the screen width */
+    background-color: #333; /* Sidebar background color */
+    color: #fff; /* Text color */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .product-dropdown,.prey,.prex{
+    width: 20% !important;
+    margin-right: 1rem !important;
+  }
+  .product-ent{
+    display: flex;
+  }
+  .btn-add{
+    height: -webkit-fill-available;
+  }
+  .table-data{
+    width: 100%;
+    margin-right:1rem !important ;
+  }
+  .content {
+    flex: 4; /* 80% of the screen width */
+    background-color: white; /* Content background color */
+    padding: 20px;
+    box-sizing: border-box;
+    width: 80%;
+    padding-left: 1rem !important
+  }
+  .sidebar {
+    width: 250px; /* Adjust the width as needed */
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: #333; /* Sidebar background color */
+    color: #fff; /* Text color */
+    padding: 20px;
+  }
+  .sidebar-item{
+    background-color: white;
+    margin-bottom: 1rem !important;
+    padding: 1rem
+  }
+  .sidebar-item >Link{
+    color: white;
+  }
+  .sidebar-nav {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-item {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-item a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+  }
+  .hamburger-icon{
+    display: none;
+  }
+  .sidebar.active {
+    transform: translateX(0%);
+        display: block; /* Expand the sidebar to 100% width when active */
+        width: 100%;
+        transition: width 0.3s ease;
+
+  }
+  @media (max-width:769px) {
+    .sidebar{
+        transform: translateX(-100%);
+        display: none;
+    }
+    .content{
+        width: 100%;
+    }
+    .hamburger-icon{
+        display: block;
+      }
+      .product-dropdown,.prey,.prex{
+        width: 100% !important;
+        margin-right: 1rem !important;
+      }
+      .product-ent{
+        display:block;
+      }
+  }
+  
