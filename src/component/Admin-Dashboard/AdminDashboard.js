@@ -34,7 +34,7 @@ const AdminDashboard = () => {
         {/* Add more navigation items as needed */}
       </ul>
     </nav>
-      <div className="content">
+      <div className="content1">
       <div
         className={`hamburger-icon ${isSidebarOpen ? 'active' : ''}`}
         onClick={toggleSidebar}

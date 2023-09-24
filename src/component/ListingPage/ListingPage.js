@@ -105,7 +105,7 @@ const ListingPage = () => {
       <div className="product-page">
       
       <h1>Product Page</h1>
-    <div className="action_bottom">
+    <div className="action_bottom action_bottom1">
               <Link className="global-button global-button--primary" to="/uploadImage">Upload Image</Link>
         </div>
       <div className="product-list">

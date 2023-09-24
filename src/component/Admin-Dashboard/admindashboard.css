@@ -14,7 +14,7 @@
     position: absolute; /* Position the sidebar absolutely */
     top: 0; /* Position from the top */
     left: -100%; /* Initially hidden to the left */
-    z-index: 2; /* Set a higher z-index value to overlay content */
+    z-index: 2; /* Set a higher z-index value to overlay content1 */
     width: 20%; /* Set the width */
     transition: left 0.3s ease; /* Add transition for smooth sliding effect */
   }
@@ -36,9 +36,9 @@
   .table-div{
     overflow: auto;
   }
-  .content {
+  .content1 {
     flex: 4; /* 80% of the screen width */
-    background-color: white; /* Content background color */
+    background-color: white; /* content11 background color */
     padding: 20px;
     box-sizing: border-box;
     width: 80%;
@@ -115,7 +115,7 @@
         transform: translateX(-100%);
         display: none;
     }
-    .content{
+    .content1{
         width: 100%;
     }
     .hamburger-icon{

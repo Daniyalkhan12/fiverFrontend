@@ -4392,9 +4392,9 @@ p.cart-message a {
   display: inline-block;
 }
 
-.menu-position--inline {
+/* .menu-position--inline {
   flex-wrap: nowrap;
-}
+} */
 .menu-position--inline .header__logo {
   width: 100%;
 }

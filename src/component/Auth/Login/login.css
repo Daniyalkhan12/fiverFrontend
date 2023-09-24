@@ -1,3 +1,9 @@
 .Loginheading{
     margin-left: 1rem;
 }
+@media (max-width:769px) {
+    #customer_login{
+        margin-left: 1rem
+
+    }
+}

@@ -4,9 +4,12 @@
     margin: auto;
   }
   .action_bottom{
-    float: right;
     margin: 5px;
   }
+  .action_bottom1{
+    float: right;;
+  }
+  
   .product-list {
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap to the next row */
