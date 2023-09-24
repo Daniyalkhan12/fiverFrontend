@@ -15,6 +15,12 @@ const AdminDashboard = () => {
     <div className="app-container">
       
       <nav className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
+      <div
+        className={`hamburger-icon ${isSidebarOpen ? 'active' : ''}`}
+        onClick={toggleSidebar}
+      >
+        <h4 className='close'>Close</h4>
+      </div>
       <ul className="sidebar-nav">
         <li className="sidebar-item">
           <Link to="/">Image Uplode</Link>
@@ -60,7 +66,7 @@ const AdminDashboard = () => {
             />
             <button className='global-button global-button--primary btn-add'>Add</button>
         </div>
-        <div>
+        <div className='table-div'>
         <Table striped bordered hover className='table-data'>
       <thead>
         <tr>
