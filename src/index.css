@@ -17,3 +17,24 @@ code {
   font-family: 'Noto Color Emoji';
   font-size: 15px;
 }
+
+/* Basic button styles */
+.logout-button {
+  float: right;
+  margin: 20px;
+  background-color: #856a64; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px 20px; /* Padding */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor on hover */
+  transition: background-color 0.3s ease; /* Transition for background color */
+}
+
+/* Hover animation */
+.logout-button:hover {
+  background-color: #50795b5a; /* New background color on hover */
+}
+.logout-button > button{
+  background: none;
+}

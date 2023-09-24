@@ -3,6 +3,7 @@ import { SketchPicker } from 'react-color';
 import { useNavigate } from 'react-router-dom';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import './uplodeimage.css'
 const UplodeImage = () => {
   const navigate = useNavigate();
   
@@ -10,11 +11,16 @@ const UplodeImage = () => {
   const [pos_y, setPosY] = useState('');
   const [uploadImage, setUploadImage] = useState(null);
   const [urlImage, setUrlImage] = useState(null);
-    const [selectedCode, setSelectedCode] = useState('');
+    const [selectedCode, setSelectedCode] = useState([]);
+    const [selectedFont, setSelectedFont] = useState('')
     const emojis = ["😊", "❤️", "☹️", "🤡", "😵", "🤕", "👤", "😍", "🥰", "😗", "😋", "😛", "😝", "😠", "😬", "🐯", "🌚", "🐼", "🐶", "🐵", "🥦", "🎯", "🤾", "🚴"];
 
     const handleEmojiSelect = (event) => {
-      setSelectedCode(event.target.value);
+      const allOptions = [...selectedCode, event.target.selectedOptions[0].value]
+      setSelectedCode(allOptions);
+    };
+    const handleFontSelection = (event) => {
+      setSelectedFont(event.target.value);
     };
     const [color, setColor] = useState({ r: 0, g: 0, b: 0 });
   const [showPicker, setShowPicker] = useState(false);
@@ -45,15 +51,6 @@ const UplodeImage = () => {
   const handleUploadButton = async (e) => {
     e.preventDefault();
     const accessToken = localStorage.getItem('accessToken')
-    // console.log(accessToken, uploadImage)
-    // const imageDetails = {
-    //   "pos_x": pos_x,
-    //   "post_y": pos_y,
-    //   "red": color.r,
-    //   "green": color.g,
-    //   "blue": color.b,
-    //   "image": uploadImage
-    // }
     var imageDetails = new FormData();
     imageDetails.append("image", urlImage);
     imageDetails.append("pos_x", pos_x);
@@ -61,6 +58,8 @@ const UplodeImage = () => {
     imageDetails.append("red", color.r);
     imageDetails.append("green", color.g);
     imageDetails.append("blue", color.b);
+    imageDetails.append("emoji", selectedCode)
+    imageDetails.append("font", selectedFont)
     const response = await fetch("http://127.0.0.1:8000/image/upload/", {
       method: 'POST',
       body: imageDetails,
@@ -148,10 +147,26 @@ const UplodeImage = () => {
       {uploadImage && <img src={uploadImage} className='imgUplode' alt="Uploaded" width="200" height="200" />}
     </div>
     <div className="emoji-code-dropdown">
+      <label htmlFor="emojiCodeDropdown1">Select Font:</label>
+      <select
+        id="emojiCodeDropdown1"
+        onChange={handleFontSelection}
+        value={selectedFont}
+      >
+        
+        <option value="">Select font</option>
+        <option value="public/font/NotoColorEmoji.ttf">Noto Color Emoji</option>
+        {/* <option value="public/font/AppleColorEmoji.ttf">Apple Color</option> */}
+        {/* <option value="public/font/Samsung Emoji (1).ttf">Samsung</option> */}
+      </select>
+    </div>
+    
+    <div className="emoji-code-dropdown">
       <label htmlFor="emojiCodeDropdown">Select Emoji Code:</label>
       <select
         id="emojiCodeDropdown"
         onChange={handleEmojiSelect}
+        multiple
         value={selectedCode}
       >
         
@@ -163,11 +178,10 @@ const UplodeImage = () => {
         ))}
         {/* Add more emoji codes here */}
       </select>
-      {selectedCode && (
+      {selectedCode.length !== 0 && (
         <div>
           <p>Selected Emoji Code:</p>
-          <span>{selectedCode}</span>
-          <span>&#10004;</span>
+          <span>{selectedCode.join('✓, ')}</span>
         </div>
       )}
     </div>

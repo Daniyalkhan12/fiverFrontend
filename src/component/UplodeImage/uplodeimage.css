@@ -2,3 +2,6 @@
     display: block;
     margin: auto;
 }
+#emojiCodeDropdown{
+    height: 8rem;
+}

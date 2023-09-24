@@ -62,23 +62,11 @@ const NavBar = () => {
         </nav>
         
         {/* Logout button */}
-        <div className="logout-button">
-        { localStorage.getItem('refreshToken') ? (  <button onclick="logoutUser()">Logout</button>): null}
+        <div>
+        { localStorage.getItem('refreshToken') ?  (<button className="logout-button" onClick={logoutUser}>Logout</button>): null}
         </div>
       </div>
 
-      {/* Search container */}
-      <div className="search-container">
-        {/* Search form */}
-        <div className="search-form-container">
-          {/* Your search form */}
-        </div>
-
-        {/* Search link */}
-        <div className="search-link">
-          <a className="icon-search dropdown_link active_link" href="/search" title="Search" data-dropdown-rel="search"></a>
-        </div>
-      </div>
     </div>
   </div>
 </div>
