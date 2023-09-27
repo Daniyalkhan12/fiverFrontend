@@ -13,13 +13,11 @@
   .product-list {
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap to the next row */
-    justify-content: space-between; /* Distribute items evenly along the row */
-  }
+    }
   
   .product {
-    width: 30%; /* Adjust the width as needed to fit 3 items in a row with some spacing */
-    margin-bottom: 20px; /* Add spacing between rows */
-    
+    width: calc(33.33% - 10px);
+    margin: 5px;
   }
   
   

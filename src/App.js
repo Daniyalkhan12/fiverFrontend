@@ -6,51 +6,18 @@ import NavBar from "./component/NavBar/NavBar";
 import NewsLetter from "./component/NewsLetter/NewsLetter";
 import PromoBanner from "./component/PromoBanner/PromoBanner";
 import UplodeImage from "./component/UplodeImage/UplodeImage";
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
+import { lazy } from "react";
+// const AdminDashboard = lazy(() => import("./component/Admin-Dashboard/AdminDashboard"));
+// const Login = lazy(() => import("./component/Auth/Login/Login"));
+// const Registration = lazy(() => import("./component/Auth/Registration/Registration"));
+// const ListingPage = lazy(() => import("./component/ListingPage/ListingPage"));
+// const NavBar = lazy(() => import("./component/NavBar/NavBar"));
 
 function App() {
-  const products = [
-    {
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },{
-      name: 'Product 1',
-      imageUrl: 'alexas_fotos-DmuqS6KTf6M-unsplash.jpg',
-      price: 49.99,
-    },]
+  // console.log(localStorage.getItem("username"))
+  // const isAuthenticated = localStorage.getItem("username") === "superadmin";
+  // const isLoggedIn = localStorage.getItem("username");
   return (
 
     <div className="App">
@@ -58,7 +25,7 @@ function App() {
       <Routes>
         <Route 
           path="/" 
-          element={<Login />} 
+          element={localStorage.getItem("username") ? <Navigate to="/listingPage" /> : <Login/>} 
         />
         <Route 
           path="/registration" 
@@ -66,15 +33,16 @@ function App() {
         />
         <Route 
           path="/uploadImage" 
-          element={<UplodeImage />} 
+          element={localStorage.getItem("username") ? <UplodeImage/> : <Navigate to="/" />} 
         />
          <Route 
           path="/listingPage" 
-          element={<ListingPage products={products}/>} 
+          element={localStorage.getItem("username") ? <ListingPage/> : <Navigate to="/" />} 
         />
         <Route 
+          exact
           path="/admindashboard" 
-          element={<AdminDashboard/>} 
+          element={localStorage.getItem("username") === "superadmin" ? <AdminDashboard/> : <Navigate to="/" />} 
         />
       </Routes>
       {/* <PromoBanner/> */}

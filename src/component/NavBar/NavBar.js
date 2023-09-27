@@ -1,7 +1,9 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+ 
 
 const NavBar = () => {
+    
   const navigate = useNavigate();
   const logoutUser = async () => {
     try {
@@ -10,7 +12,7 @@ const NavBar = () => {
       // Prepare the request body as a JSON string
       const requestBody = JSON.stringify({ refresh: refreshToken });
   
-      const response = await fetch('http://127.0.0.1:8000/user/logout/', {
+      const response = await fetch(''+process.env.REACT_APP_API_URL+'/user/logout/', {
         method: 'POST',
         body: requestBody, // Use the JSON string as the request body
         headers: {
@@ -27,8 +29,10 @@ const NavBar = () => {
       if (json.code === 200) {
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('username');
         alert("User Logged out Successfully!");
-        navigate('/');
+        // navigate('/');
+        window.location.href = '/';
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -38,9 +42,9 @@ const NavBar = () => {
   return (
 <div>
   <div className="main-nav__wrapper">
-    <div className="main-nav menu-position--inline logo-alignment--center logo-position--center search-enabled--true" data-show-dropdown-on-click="">
+    <div style={{flexWrap: 'unset'}} className="main-nav menu-position--inline logo-alignment--center logo-position--center search-enabled--true" data-show-dropdown-on-click="">
       {/* Left navigation */}
-      <div className="nav nav--left align_left">
+      <div style={{width: '0%'}} className="nav nav--left align_left">
         {/* Desktop navigation */}
         <nav className="nav-desktop" data-nav="" data-nav-desktop="" aria-label="Translation missing: en.navigation.header.main_nav">
           {/* Your navigation items */}
@@ -48,14 +52,15 @@ const NavBar = () => {
       </div>
 
       {/* Logo */}
-      <div className="header__logo logo--image">
+      <div style={{textAlign: 'left'}} className="header__logo logo--image">
         <a href="/" title="Turbo Theme Portland">
-          <img src="//turbo-theme.myshopify.com/cdn/shop/files/logo_home_portland_410x_d790bc90-5d6b-46f7-b235-a0fc4f9b18f1_410x.png?v=1625581205" className="primary_logo ls-is-cached lazyloaded" alt="Turbo Theme Portland" style={{ objectFit: 'cover', objectPosition: '50.0% 50.0%' }} />
+          <h1 style={{color: 'white'}}>Dupictably Lab</h1>
+          {/* <img src="//turbo-theme.myshopify.com/cdn/shop/files/logo_home_portland_410x_d790bc90-5d6b-46f7-b235-a0fc4f9b18f1_410x.png?v=1625581205" className="primary_logo ls-is-cached lazyloaded" alt="Turbo Theme Portland" style={{ objectFit: 'cover', objectPosition: '50.0% 50.0%' }} /> */}
         </a>
       </div>
 
       {/* Right navigation */}
-      <div className="nav nav--right align_right">
+      <div style={{width: '80%'}} className="nav nav--right align_right">
         {/* Desktop navigation */}
         <nav className="nav-desktop" data-nav="" data-nav-desktop="" aria-label="Translation missing: en.navigation.header.main_nav">
           {/* Your navigation items */}
@@ -63,7 +68,17 @@ const NavBar = () => {
         
         {/* Logout button */}
         <div>
-        { localStorage.getItem('refreshToken') ?  (<button className="logout-button" onClick={logoutUser}>Logout</button>): null}
+          
+        { localStorage.getItem('refreshToken') ?  (
+        <div>
+          <button className="logout-button" onClick={logoutUser}>Logout</button>
+          {
+            localStorage.getItem('username') === "superadmin" ? 
+            <Link to='/admindashboard'className='logout-button' style={{color: 'white', background: 'none'}}>{localStorage.getItem('username')}</Link> : null
+          }
+        
+        </div>
+        ): null}
         </div>
       </div>
 

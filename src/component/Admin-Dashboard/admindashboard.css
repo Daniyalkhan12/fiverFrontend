@@ -130,3 +130,32 @@
       }
   }
   
+  /* Style the button */
+.table-button {
+  background-color: #1e2c3ac6; /* Button background color */
+  color: #fff; /* Text color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Adjust padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover effect */
+.table-button:hover {
+  background-color: #233c57; /* Darker background color on hover */
+}
+
+/* Optional: Center the button text */
+.table-button-wrapper {
+  text-align: center;
+}
+
+/* Optional: Add margin to the button for spacing */
+.table-button-margin {
+  margin-right: 10px; /* Adjust as needed */
+}
+.submit-button{
+  height: 30%;
+  width: 16%;
+}

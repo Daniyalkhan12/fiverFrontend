@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../Login/login.css'
 import '../Registration/Registration'
+ 
 const Login = () => {
+    
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordResetVisible, setIsPasswordResetVisible] = useState(false);
-
+  const username = localStorage.getItem('username');
   const navigate = useNavigate();
-
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     // Handle login logic here
@@ -16,8 +17,9 @@ const Login = () => {
       "username": email, 
       "password": password
     }
-
-    const response = await fetch('http://127.0.0.1:8000/user/login/', {
+    console.log(process.env)
+    console.log(''+process.env+'/user/login/')
+    const response = await fetch(''+process.env.REACT_APP_API_URL+'/user/login/', {
       method: 'POST',
       body: JSON.stringify(login),
       headers:{
@@ -35,10 +37,13 @@ const Login = () => {
       localStorage.setItem('accessToken', access);
       const refresh = json.data.refresh;
       localStorage.setItem('refreshToken', refresh);
+      const username = json.data.username;
+      localStorage.setItem('username', username);
 
 
      alert("User Logged in Successfully!")
-     navigate('/listingPage')
+    //  navigate('/listingPage')
+    window.location.href = "/listingPage"
     }
 
   };
@@ -50,6 +55,7 @@ const Login = () => {
   const handleCancelPasswordReset = () => {
     setIsPasswordResetVisible(false);
   };
+
   return (
     <div>
         <div className="content">

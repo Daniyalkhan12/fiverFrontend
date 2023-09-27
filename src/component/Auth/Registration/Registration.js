@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../Registration/Registration.css'
+ 
 const Registration = () => {
+    
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -22,7 +24,7 @@ const Registration = () => {
       "email": email
     }
 
-    const response = await fetch("http://127.0.0.1:8000/user/register/", {
+    const response = await fetch(""+process.env.REACT_APP_API_URL+"/user/register/", {
       method: 'POST',
       body: JSON.stringify(user),
       headers:{
@@ -128,7 +130,7 @@ const Registration = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="acceptsMarketing">
+            {/* <div className="acceptsMarketing">
               <input
                 type="checkbox"
                 id="customer[accepts_marketing]"
@@ -137,7 +139,7 @@ const Registration = () => {
                 onChange={(e) => setAcceptsMarketing(e.target.checked)}
               />
               <label htmlFor="customer[accepts_marketing]">Subscribe to our newsletter?</label>
-            </div>
+            </div> */}
             <div className="action_bottom">
               <input className="global-button global-button--primary" type="submit" value="Sign Up" />
               <p className="right" style={{ paddingTop: '8px' }}>
