@@ -109,8 +109,8 @@ const ListingPage = () => {
       
       <h1 style={{marginTop: '1rem'}}>Product Page</h1>
     <div className="action_bottom action_bottom1">
-              <Link className="global-button global-button--primary" to="/uploadImage">Upload Image</Link>
-        </div>
+      <Link className="global-button global-button--primary" to="/uploadImage">Upload Image</Link>
+    </div>
       <div className="product-list">
         { products.length !== 0 ? 
         (
