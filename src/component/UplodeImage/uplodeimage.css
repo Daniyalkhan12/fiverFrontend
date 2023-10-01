@@ -5,3 +5,49 @@
 #emojiCodeDropdown{
     height: 8rem;
 }
+
+.emoji-drawer {
+    display: grid;
+
+    grid-template-columns: repeat(15, 1fr);
+
+    width: 50px;
+
+    margin-bottom: 32px;
+    transition: opacity 0.2s;
+}
+
+
+.emoji {
+    text-align: center;
+    font-size: 12px;
+    padding: 1px;
+}
+
+.emoji:hover {
+    cursor: pointer;
+}
+
+/* CSS for the X button */
+.delete-button {
+    background-color: #006110; /* Red background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove button border */
+    border-radius: 20%; /* Make the button a circle */
+    width: 24px; /* Set button width */
+    height: 24px; /* Set button height */
+    font-size: 14px; /* Adjust font size as needed */
+    cursor: pointer;
+    flex: 10%;
+    padding: 0px;
+    margin-left: 5px;
+  }
+  
+  /* Hover effect for the X button */
+  .delete-button:hover {
+    background-color: #02381b; /* Darker red background on hover */
+  }
+
+.generate-image-button{
+    margin-top:  2rem;
+}

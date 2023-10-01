@@ -18,8 +18,6 @@ const UplodeImage = () => {
   const [urlImage, setUrlImage] = useState(null);
     const [selectedCode, setSelectedCode] = useState([]);
     const [selectedFont, setSelectedFont] = useState('')
-    const emojis = ["😊", "❤️", "☹️", "🤡", "😵", "🤕", "👤", "😍", "🥰", "😗", "😋", "😛", "😝", "😠", "😬", "🐯", "🌚", "🐼", "🐶", "🐵", "🥦", "🎯", "🤾", "🚴"];
-
     const [selectedProduct, setSelectedProduct] = useState('');
     const [presets, setPresets] = useState([])
     const [products, setProducts] = useState([])
@@ -60,11 +58,29 @@ const UplodeImage = () => {
       const allOptions = [...selectedCode, event.target.selectedOptions[0].value]
       setSelectedCode(allOptions);
     };
+
+    const addEmoji = (emoji) => {
+      if (selectedCode.length === 27){
+        alert('Limit Reached! Please pick only upto 27 emojis')
+        return
+      }
+      const allOptions = [...selectedCode, emoji.native]
+      setSelectedCode(allOptions);
+    }
     const handleFontSelection = (event) => {
       setSelectedFont(event.target.value);
     };
     const [color, setColor] = useState({ r: 0, g: 0, b: 0 });
   const [showPicker, setShowPicker] = useState(false);
+
+    
+  const buttonStyle = {
+    backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+    marginLeft: '1rem',
+    border: '1px dotted black',
+    borderRadius: '10%',
+    paddingLeft: '6rem'
+  };
 
   const handleColorChange = (newColor) => {
     setColor(newColor.rgb);
@@ -100,13 +116,15 @@ const UplodeImage = () => {
       imageDetails.append("pos_y", emoji_dimensions.split("-")[1])
     }else{
       imageDetails.append("pos_x", pos_x);
-      imageDetails.append("post_y", pos_y);
+      imageDetails.append("pos_y", pos_y);
     }
     imageDetails.append("red", color.r);
     imageDetails.append("green", color.g);
     imageDetails.append("blue", color.b);
     imageDetails.append("emoji", selectedCode)
     imageDetails.append("font", selectedFont)
+    console.log(selectedCode)
+    console.log(...imageDetails)
     const response = await fetch(""+process.env.REACT_APP_API_URL+"/image/upload/", {
       method: 'POST',
       body: imageDetails,
@@ -164,6 +182,7 @@ const UplodeImage = () => {
     
     <button type='button' onClick={() => setShowPicker(!showPicker)}>
         Select Color
+        <span style={buttonStyle}></span>
       </button>
       {showPicker && (
         <div style={{ position: 'absolute', zIndex: 999 }}>
@@ -257,7 +276,7 @@ const UplodeImage = () => {
     
     <div className="emoji-code-dropdown">
       <label htmlFor="emojiCodeDropdown">Select Emoji Code:</label>
-      <select
+      {/* <select
         id="emojiCodeDropdown"
         onChange={handleEmojiSelect}
         multiple
@@ -270,17 +289,29 @@ const UplodeImage = () => {
             {emoji}
           </option>
         ))}
-        {/* Add more emoji codes here */}
-      </select>
-      {selectedCode.length !== 0 && (
+      </select> */}
+      {/* <div id="drawer" class="emoji-drawer"> 
+        
+        {emojis.map((emoji, index) => (
+          <div id={index} class="emoji" onClick={()=>addEmoji(this.innerHTML)}>
+            {emoji}
+          </div>
+        ))}
+      </div> */}
+      
+      <Picker data={data} theme="auto" onEmojiSelect={addEmoji} />
+
         <div>
           <p>Selected Emoji Code:</p>
-          <span>{selectedCode.join('✓, ')}</span>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <span style={{flex: '90%', border: '1px solid black', borderRadius: '0.5rem', padding: '0px 2px 0px 5px'}}>{selectedCode.join(' ')}</span>
+            <button type='button' className="delete-button" onClick={()=> setSelectedCode(selectedCode.slice(0, -1))}>&lt;</button>
+          </div>
         </div>
-      )}
+        
     </div>
     
-    <div className="action_bottom">
+    <div className="action_bottom generate-image-button">
               <input className="global-button global-button--primary" type="submit" value="Generate Image" />
         </div>
     </form>
