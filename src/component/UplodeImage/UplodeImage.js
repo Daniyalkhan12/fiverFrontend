@@ -5,7 +5,10 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import './uplodeimage.css'
 import { useEffect } from 'react';
- 
+import LoadingOverlay from 'react-loading-overlay-ts';
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const UplodeImage = () => {
     
   const navigate = useNavigate();
@@ -21,6 +24,7 @@ const UplodeImage = () => {
     const [selectedProduct, setSelectedProduct] = useState('');
     const [presets, setPresets] = useState([])
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false);
 
     const handleProductSelect = async (event) =>{
       setSelectedProduct(event.target.value)
@@ -83,6 +87,16 @@ const UplodeImage = () => {
   };
 
   const handleColorChange = (newColor) => {
+    toast.info('Generating Image! Please wait a few seconds', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
     setColor(newColor.rgb);
   };
 
@@ -107,6 +121,7 @@ const UplodeImage = () => {
   
   const handleUploadButton = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const accessToken = localStorage.getItem('accessToken')
     var imageDetails = new FormData();
     imageDetails.append("image", urlImage);
@@ -134,13 +149,32 @@ const UplodeImage = () => {
     })
     // console.log(response)
     const json = await response.json()
-    // console.log(json)
+    if (json)
+      setLoading(false)
     if (json.code === 400){
-      alert("Error during generating. Please try again!")
+      toast.error('🦄 Wow so easy!', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     }
     if (json.code === 200){
-     alert("Generating Image, Please wait a few seconds!")
-     navigate('/listingPage')
+      toast.info('Generating Image! Please wait a few seconds', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+    //  navigate('/listingPage')
     }
 
   };
@@ -167,9 +201,20 @@ const UplodeImage = () => {
 
   }, []);
   return (
+    
+    <LoadingOverlay
+      
+          //visibility of Overlay Loading Spinner
+          active={loading}
+          spinner
+          //Text with the Spinner
+          text={'Generating...'}
+          //Text style of the Spinner Text
+          // textStyle={styles.spinnerTextStyle}
+    >
+    <ToastContainer transition={Slide}/>
     <div className="three-eighths columns medium-down--one-whole offset-by-five is-hidden-offset-mobile-only animated fadeInUp">
     <div>
-      
       <form
             method="post"
             action="/account"
@@ -198,6 +243,7 @@ const UplodeImage = () => {
         value={color.r}
         onChange={handleInputChange}
         placeholder="Red"
+        required
       />
       <input
         type="number"
@@ -205,6 +251,7 @@ const UplodeImage = () => {
         value={color.g}
         onChange={handleInputChange}
         placeholder="Green"
+        required
       />
       <input
         type="number"
@@ -212,10 +259,12 @@ const UplodeImage = () => {
         value={color.b}
         onChange={handleInputChange}
         placeholder="Blue"
+        required
       />
     </div>
     
-    <select className='emoji-code-dropdown' value={selectedProduct} onChange={handleProductSelect}>
+    <select className='emoji-code-dropdown' value={selectedProduct} onChange={handleProductSelect}
+        required>
                 <option value="">Select Product</option>
                 
                 {products.map((product) => (
@@ -244,6 +293,7 @@ const UplodeImage = () => {
                     id="xInput"
                     value={pos_x}
                     onChange={(e) => setPosX(e.target.value)}
+                    required
                     />
 
               <label htmlFor="yInput">Enter Y:</label>
@@ -252,11 +302,13 @@ const UplodeImage = () => {
                       id="yInput"
                       value={pos_y}
                       onChange={(e) => setPosY(e.target.value)}
+                      required
                     />
                       </div>)
         }
     <div>
-      <input type="file" accept="image/*" onChange={handleImageUpload} />
+      <input type="file" accept="image/*" onChange={handleImageUpload} 
+        required/>
       {uploadImage && <img src={uploadImage} className='imgUplode' alt="Uploaded" width="200" height="200" />}
     </div>
     <div className="emoji-code-dropdown">
@@ -265,6 +317,7 @@ const UplodeImage = () => {
         id="emojiCodeDropdown1"
         onChange={handleFontSelection}
         value={selectedFont}
+        required
       >
         
         <option value="">Select font</option>
@@ -317,7 +370,7 @@ const UplodeImage = () => {
     </form>
     </div>
   </div>
-
+  </LoadingOverlay>
   )
 }
 
